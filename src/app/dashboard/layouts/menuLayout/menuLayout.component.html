@@ -1,0 +1,25 @@
+<nav class="flex-col ml-5 w-[370px] min-h-[calc(98vh-3.0rem)] bg-teal-600 bg-opacity-10 p-5 rounded-3xl">
+  <h1 class="font-bold text-lg lg:text-3x1 text-indigo-500">Prueba Konecta</h1>
+  <div class="border-x-gray-700 border my-3">
+  @for (route of routes; track route.path) {
+    <app-side-bar-menu-item
+      onkeypress="return flase"
+      [icon]="route.data!['icon']"
+      [title]="route.data!['title']"
+      [path]="route.path!"
+      (click)="optionClick(route.data!['title'])"
+    />
+  }
+  </div>
+  <hr>
+  <div class="border-x-gray-700 border my-3">
+    <p-button label="Cerrar Sesión" (click)="onLogout()" class="mr-2" size="small" severity="danger" onkeydown="return false"/>
+    @if (!haveTFA()) {
+      <p-button label="Activar MFA" (click)="activateMFA()" class="mr-2" size="small" severity="secondary" onkeydown="return false"/>
+    }
+    @if (qrCode() && !isTFA() ) {
+      <h4>Código Qr para escanearlo con su aplicación de atenticación (google authenticator/Microsoft authenticator)</h4>
+      <img [src]="qrCode()" alt="qrCode">
+    }
+  </div>
+</nav>
