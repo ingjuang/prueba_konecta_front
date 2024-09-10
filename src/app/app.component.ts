@@ -7,6 +7,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ModalService } from './presentation/services/modal.service';
 import { ToastModule } from 'primeng/toast';
+import { SignalrService } from './presentation/services/signalr.service';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private primeConfig = inject(PrimeNGConfig);
+  private signalrService = inject(SignalrService);
   public authStatus = computed(() => this.authService.authStatus());
   public finishedAuthCheck = computed<boolean>(() => {
     return this.authStatus() !== AuthStatus.checking;
@@ -28,6 +30,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.setPrimeNGConfig();
     this.handleAuthStatusChanged();
+    this.signalrService.startConnection();
+    this.signalrService.addReceiveMessageListener();
   }
 
   private handleAuthStatusChanged(): void {

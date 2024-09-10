@@ -60,6 +60,7 @@ export class MenuLayoutComponent implements OnInit {
   }
   public onLogout(){
     this.authService.logout();
+    window.location.reload();
   }
 
   public activateMFA(){
